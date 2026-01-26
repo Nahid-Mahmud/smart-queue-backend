@@ -26,6 +26,7 @@ const createUser = async (payload: Partial<IUser>) => {
     isVerified: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { password: userPassword, ...rest } = result.toObject();
 
   return rest;
@@ -83,9 +84,7 @@ const getAllUsers = async () => {
 
 // get logged-in user
 const getMe = async (userId: string) => {
-  const user = await User.findById(userId).select(
-    "-password -isActive -isVerified"
-  );
+  const user = await User.findById(userId).select("-password -isActive -isVerified");
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }

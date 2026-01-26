@@ -1,12 +1,15 @@
-
 import { Request, Response } from "express";
+
 import { catchAsync } from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import { AppointmentService } from "./appointment.service";
+import { JwtPayload } from "jsonwebtoken";
 
 const createAppointment = catchAsync(async (req: Request, res: Response) => {
-  const result = await AppointmentService.createAppointmentIntoDB(req.body);
+  const decodedToken = req.user as JwtPayload;
+  // const payload = { ...req.body, createdBy: new Types.ObjectId(decodedToken.userId) };
+  const result = await AppointmentService.createAppointmentIntoDB(req.body, decodedToken.userId);
   sendResponse(res, {
     statusCode: StatusCodes.CREATED,
     success: true,
@@ -16,7 +19,9 @@ const createAppointment = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllAppointments = catchAsync(async (req: Request, res: Response) => {
-  const result = await AppointmentService.getAllAppointmentsFromDB(req.query);
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await AppointmentService.getAllAppointmentsFromDB(req.query, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -27,7 +32,9 @@ const getAllAppointments = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleAppointment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AppointmentService.getSingleAppointmentFromDB(id);
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await AppointmentService.getSingleAppointmentFromDB(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -38,7 +45,9 @@ const getSingleAppointment = catchAsync(async (req: Request, res: Response) => {
 
 const updateAppointment = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await AppointmentService.updateAppointmentIntoDB(id, req.body);
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await AppointmentService.updateAppointmentIntoDB(id, req.body, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -48,8 +57,10 @@ const updateAppointment = catchAsync(async (req: Request, res: Response) => {
 });
 
 const assignFromQueue = catchAsync(async (req: Request, res: Response) => {
-  const { staffId } = req.body;
-  const result = await AppointmentService.assignFromQueue(staffId);
+  const { staffId, appointmentId } = req.body;
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await AppointmentService.assignFromQueue(staffId, userId, appointmentId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -59,7 +70,9 @@ const assignFromQueue = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getDashboardStats = catchAsync(async (req: Request, res: Response) => {
-  const result = await AppointmentService.getDashboardStats();
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await AppointmentService.getDashboardStats(userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

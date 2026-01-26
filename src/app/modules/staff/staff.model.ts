@@ -5,7 +5,7 @@ const staffSchema = new Schema<IStaff>(
   {
     name: { type: String, required: true },
     serviceType: { type: String, required: true },
-    dailyCapacity: { type: Number, default: 5 },
+    dailyCapacity: { type: Number, default: 1, min: 1, max: 5 },
 
     availabilityStatus: {
       type: String,

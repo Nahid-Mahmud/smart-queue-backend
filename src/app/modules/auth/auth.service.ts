@@ -12,7 +12,6 @@ import { passwordZodValidationSchema } from "../user/user.validation";
 import jwt from "jsonwebtoken";
 import { IsActive } from "../user/user.interface";
 
-
 const credentialLogin = async (req: Request, res: Response, next: NextFunction) => {
   return new Promise((resolve, reject) => {
     passport.authenticate("local", async (error: any, user: any, info: any) => {
@@ -114,12 +113,10 @@ const forgotPassword = async (email: string) => {
     role: isUserExist.role,
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const resetToken = jwt.sign(JwtPayload, envVariables.ACCESS_TOKEN_JWT_SECRET, {
     expiresIn: "10m",
   });
-
-
-
 };
 
 export const authService = {

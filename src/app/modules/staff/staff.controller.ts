@@ -19,7 +19,9 @@ const createStaff = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllStaff = catchAsync(async (req: Request, res: Response) => {
-  const result = await StaffService.getAllStaffFromDB();
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await StaffService.getAllStaffFromDB(userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -30,7 +32,9 @@ const getAllStaff = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleStaff = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await StaffService.getSingleStaffFromDB(id);
+  const user = req.user as JwtPayload;
+  const userId = user.userId;
+  const result = await StaffService.getSingleStaffFromDB(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -41,7 +45,9 @@ const getSingleStaff = catchAsync(async (req: Request, res: Response) => {
 
 const updateStaff = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await StaffService.updateStaffIntoDB(id, req.body);
+  const userId = (req.user as JwtPayload).userId;
+
+  const result = await StaffService.updateStaffIntoDB(id, req.body, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -52,7 +58,8 @@ const updateStaff = catchAsync(async (req: Request, res: Response) => {
 
 const deleteStaff = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const result = await StaffService.deleteStaffFromDB(id);
+  const userId = (req.user as JwtPayload).userId;
+  const result = await StaffService.deleteStaffFromDB(id, userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,

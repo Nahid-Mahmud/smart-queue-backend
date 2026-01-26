@@ -7,8 +7,10 @@ export interface IAppointment {
   service: Types.ObjectId; // Reference to Service
   assignedStaff?: Types.ObjectId; // Reference to Staff, optional if in queue
   appointmentDate: string; // YYYY-MM-DD
-  appointmentTime: string; // HH:mm
+  appointmentStartTime?: string; // HH:mm
+  appointmentEndTime?: string; // HH:mm
   status: TAppointmentStatus;
   isDeleted: boolean;
   queuePosition?: number;
+  createdBy: Types.ObjectId; // Reference to User who created the appointment
 }
