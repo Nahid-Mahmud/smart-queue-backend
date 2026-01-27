@@ -9,14 +9,8 @@ describe("Authentication Integration Tests", () => {
   beforeAll(async () => {
     jest.setTimeout(30000); // Increase global timeout
     // Connect to the test database
-    if (envVariables.MONGO_URI) {
-      const uri = envVariables.MONGO_URI.replace("localhost", "127.0.0.1");
-      console.log(`Connecting to ${uri}`);
-      await mongoose.connect(uri);
-      console.log("Connected to MongoDB");
-    } else {
-      throw new Error("MONGO_URI not defined for tests");
-    }
+    await mongoose.connect(envVariables.MONGO_URI);
+    console.log("Connected to MongoDB");
   }, 30000);
 
   afterAll(async () => {
