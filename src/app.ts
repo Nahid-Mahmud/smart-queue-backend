@@ -16,7 +16,7 @@ app.use(
     secret: envVariables.EXPRESS_SESSION_SECRET || "defaultSecret",
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -30,9 +30,9 @@ app.use(morgan("dev"));
 // CORS configuration
 app.use(
   cors({
-    origin: true, // Allow all origins in development
+    origin: ["https://alumnai-frontend-v2.vercel.app", "http://localhost:3000"], // Allow all origins in development
     credentials: true, // Allow cookies to be sent with requests
-  })
+  }),
 );
 
 // trust proxy
