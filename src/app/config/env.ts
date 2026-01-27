@@ -5,7 +5,7 @@ dotenv.config();
 interface EnvVariables {
   PORT: string;
   MONGO_URI: string;
-  NODE_ENV: "development" | "production";
+  NODE_ENV: "development" | "production" | "test";
   BCRYPT_SALT_ROUNDS: string;
   SUPER_ADMIN_EMAIL: string;
   SUPER_ADMIN_PASSWORD: string;
@@ -15,8 +15,7 @@ interface EnvVariables {
   REFRESH_TOKEN_JWT_EXPIRATION: string;
   EXPRESS_SESSION_SECRET: string;
   FRONTEND_URL: string;
-
-
+  TEST_MONGO_URI?: string;
 }
 
 const loadEnvVariable = (): EnvVariables => {
@@ -33,7 +32,6 @@ const loadEnvVariable = (): EnvVariables => {
     "REFRESH_TOKEN_JWT_EXPIRATION",
     "EXPRESS_SESSION_SECRET",
     "FRONTEND_URL",
-   
   ];
 
   requiredEnvVariables.forEach((key) => {
@@ -42,10 +40,19 @@ const loadEnvVariable = (): EnvVariables => {
     }
   });
 
+  let mongoUri = process.env.MONGO_URI as string;
+
+  if (process.env.NODE_ENV === "test") {
+    if (!process.env.TEST_MONGO_URI) {
+      throw new Error("Missing required environment variable: TEST_MONGO_URI");
+    }
+    mongoUri = process.env.TEST_MONGO_URI as string;
+  }
+
   return {
     PORT: process.env.PORT as string,
-    MONGO_URI: process.env.MONGO_URI as string,
-    NODE_ENV: process.env.NODE_ENV as "development" | "production",
+    MONGO_URI: mongoUri,
+    NODE_ENV: process.env.NODE_ENV as "development" | "production" | "test",
     BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS as string,
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
     SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
