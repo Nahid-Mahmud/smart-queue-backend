@@ -126,7 +126,7 @@ describe("User Service Integration Tests", () => {
   describe("GET /api/v1/user/:userId", () => {
     it("should allow admin to get any user by ID", async () => {
       // Create target user
-      const userRes = await request(app).post("/api/v1/user/create").send(userData);
+      await request(app).post("/api/v1/user/create").send(userData);
       const targetUser = await User.findOne({ email: userData.email });
 
       // Create admin

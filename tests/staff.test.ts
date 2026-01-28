@@ -1,9 +1,9 @@
-import request from "supertest";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../src/app";
+import envVariables from "../src/app/config/env";
 import Staff from "../src/app/modules/staff/staff.model";
 import User from "../src/app/modules/user/user.model";
-import envVariables from "../src/app/config/env";
 
 describe("Staff Integration Tests", () => {
   beforeAll(async () => {

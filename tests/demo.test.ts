@@ -1,5 +1,4 @@
-import supertest from "supertest";
-// import { app } from '../src/app'; // We might need to export app from src/app.ts or src/server.ts
+import envVariables from "../src/app/config/env";
 
 describe("Demo Test Suite", () => {
   it("should pass a basic math test", () => {
@@ -11,7 +10,7 @@ describe("Demo Test Suite", () => {
   });
 
   it("should use a test database", async () => {
-    const envVariables = (await import("../src/app/config/env")).default;
+    // eslint-disable-next-line no-console
     console.log(envVariables.MONGO_URI);
     expect(envVariables.MONGO_URI).toContain("test_");
   });

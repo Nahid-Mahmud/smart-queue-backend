@@ -1,9 +1,9 @@
-import request from "supertest";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../src/app";
+import envVariables from "../src/app/config/env";
 import ActivityLog from "../src/app/modules/activityLog/activityLog.model";
 import User from "../src/app/modules/user/user.model";
-import envVariables from "../src/app/config/env";
 
 describe("Activity Log Integration Tests", () => {
   beforeAll(async () => {

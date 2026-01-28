@@ -1,10 +1,10 @@
-import request from "supertest";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../src/app";
+import envVariables from "../src/app/config/env";
 import Appointment from "../src/app/modules/appointment/appointment.model";
 import Service from "../src/app/modules/service/service.model";
 import User from "../src/app/modules/user/user.model";
-import envVariables from "../src/app/config/env";
 
 describe("Appointment Integration Tests", () => {
   beforeAll(async () => {

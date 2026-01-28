@@ -1,15 +1,15 @@
-import request from "supertest";
 import mongoose from "mongoose";
+import request from "supertest";
 import { app } from "../src/app";
-import User from "../src/app/modules/user/user.model";
 import envVariables from "../src/app/config/env";
-import { UserRole } from "../src/app/modules/user/user.interface";
+import User from "../src/app/modules/user/user.model";
 
 describe("Authentication Integration Tests", () => {
   beforeAll(async () => {
     jest.setTimeout(30000); // Increase global timeout
     // Connect to the test database
     await mongoose.connect(envVariables.MONGO_URI);
+    // eslint-disable-next-line no-console
     console.log("Connected to MongoDB");
   }, 30000);
 
@@ -18,6 +18,7 @@ describe("Authentication Integration Tests", () => {
     try {
       await User.deleteMany({});
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error("Error clearing users:", error);
     } finally {
       await mongoose.connection.close();
@@ -57,8 +58,9 @@ describe("Authentication Integration Tests", () => {
     });
 
     it("should fail when required fields are missing", async () => {
-      const invalidData = { ...userData };
-      delete (invalidData as any).email;
+      // Use Partial<typeof userData> to avoid 'any'
+      const invalidData: Partial<typeof userData> = { ...userData };
+      delete invalidData.email;
 
       const response = await request(app).post("/api/v1/user/create").send(invalidData);
 
