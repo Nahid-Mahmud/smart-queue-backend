@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import request from "supertest";
-import { app } from "../src/app";
-import envVariables from "../src/app/config/env";
-import User from "../src/app/modules/user/user.model";
+import mongoose from 'mongoose';
+import request from 'supertest';
+import { app } from '../src/app';
+import envVariables from '../src/app/config/env';
+import User from '../src/app/modules/user/user.model';
 
 describe('Authentication Integration Tests', () => {
   beforeAll(async () => {
@@ -10,7 +10,7 @@ describe('Authentication Integration Tests', () => {
     // Connect to the test database
     await mongoose.connect(envVariables.MONGO_URI);
     // eslint-disable-next-line no-console
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
   }, 30000);
 
   afterAll(async () => {
@@ -19,7 +19,7 @@ describe('Authentication Integration Tests', () => {
       await User.deleteMany({});
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Error clearing users:", error);
+      console.error('Error clearing users:', error);
     } finally {
       await mongoose.connection.close();
     }
@@ -59,7 +59,7 @@ describe('Authentication Integration Tests', () => {
       expect(user?.firstName).toBe(userData.firstName);
     });
 
-    it("should fail when required fields are missing", async () => {
+    it('should fail when required fields are missing', async () => {
       // Use Partial<typeof userData> to avoid 'any'
       const invalidData: Partial<typeof userData> = { ...userData };
       delete invalidData.email;

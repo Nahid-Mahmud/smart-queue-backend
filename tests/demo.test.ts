@@ -1,4 +1,4 @@
-import envVariables from "../src/app/config/env";
+import envVariables from '../src/app/config/env';
 
 describe('Demo Test Suite', () => {
   it('should pass a basic math test', () => {
@@ -9,7 +9,7 @@ describe('Demo Test Suite', () => {
     expect(process.env.NODE_ENV).toBe('test');
   });
 
-  it("should use a test database", async () => {
+  it('should use a test database', async () => {
     // eslint-disable-next-line no-console
     console.log(envVariables.MONGO_URI);
     expect(envVariables.MONGO_URI).toContain('test_');

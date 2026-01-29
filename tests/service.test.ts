@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
-import request from "supertest";
-import { app } from "../src/app";
-import envVariables from "../src/app/config/env";
-import Service from "../src/app/modules/service/service.model";
+import mongoose from 'mongoose';
+import request from 'supertest';
+import { app } from '../src/app';
+import envVariables from '../src/app/config/env';
+import Service from '../src/app/modules/service/service.model';
 
 describe('Service (Offering) Integration Tests', () => {
   beforeAll(async () => {
