@@ -1,11 +1,11 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 interface EnvVariables {
   PORT: string;
   MONGO_URI: string;
-  NODE_ENV: "development" | "production" | "test";
+  NODE_ENV: 'development' | 'production' | 'test';
   BCRYPT_SALT_ROUNDS: string;
   SUPER_ADMIN_EMAIL: string;
   SUPER_ADMIN_PASSWORD: string;
@@ -20,18 +20,18 @@ interface EnvVariables {
 
 const loadEnvVariable = (): EnvVariables => {
   const requiredEnvVariables = [
-    "PORT",
-    "MONGO_URI",
-    "NODE_ENV",
-    "BCRYPT_SALT_ROUNDS",
-    "SUPER_ADMIN_EMAIL",
-    "SUPER_ADMIN_PASSWORD",
-    "ACCESS_TOKEN_JWT_SECRET",
-    "ACCESS_TOKEN_JWT_EXPIRATION",
-    "REFRESH_TOKEN_JWT_SECRET",
-    "REFRESH_TOKEN_JWT_EXPIRATION",
-    "EXPRESS_SESSION_SECRET",
-    "FRONTEND_URL",
+    'PORT',
+    'MONGO_URI',
+    'NODE_ENV',
+    'BCRYPT_SALT_ROUNDS',
+    'SUPER_ADMIN_EMAIL',
+    'SUPER_ADMIN_PASSWORD',
+    'ACCESS_TOKEN_JWT_SECRET',
+    'ACCESS_TOKEN_JWT_EXPIRATION',
+    'REFRESH_TOKEN_JWT_SECRET',
+    'REFRESH_TOKEN_JWT_EXPIRATION',
+    'EXPRESS_SESSION_SECRET',
+    'FRONTEND_URL',
   ];
 
   requiredEnvVariables.forEach((key) => {
@@ -42,9 +42,9 @@ const loadEnvVariable = (): EnvVariables => {
 
   let mongoUri = process.env.MONGO_URI as string;
 
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === 'test') {
     if (!process.env.TEST_MONGO_URI) {
-      throw new Error("Missing required environment variable: TEST_MONGO_URI");
+      throw new Error('Missing required environment variable: TEST_MONGO_URI');
     }
     mongoUri = process.env.TEST_MONGO_URI as string;
   }
@@ -52,14 +52,16 @@ const loadEnvVariable = (): EnvVariables => {
   return {
     PORT: process.env.PORT as string,
     MONGO_URI: mongoUri,
-    NODE_ENV: process.env.NODE_ENV as "development" | "production" | "test",
+    NODE_ENV: process.env.NODE_ENV as 'development' | 'production' | 'test',
     BCRYPT_SALT_ROUNDS: process.env.BCRYPT_SALT_ROUNDS as string,
     SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
     SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
     ACCESS_TOKEN_JWT_SECRET: process.env.ACCESS_TOKEN_JWT_SECRET as string,
-    ACCESS_TOKEN_JWT_EXPIRATION: process.env.ACCESS_TOKEN_JWT_EXPIRATION as string,
+    ACCESS_TOKEN_JWT_EXPIRATION: process.env
+      .ACCESS_TOKEN_JWT_EXPIRATION as string,
     REFRESH_TOKEN_JWT_SECRET: process.env.REFRESH_TOKEN_JWT_SECRET as string,
-    REFRESH_TOKEN_JWT_EXPIRATION: process.env.REFRESH_TOKEN_JWT_EXPIRATION as string,
+    REFRESH_TOKEN_JWT_EXPIRATION: process.env
+      .REFRESH_TOKEN_JWT_EXPIRATION as string,
     EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
     FRONTEND_URL: process.env.FRONTEND_URL as string,
   };

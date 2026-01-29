@@ -1,5 +1,5 @@
-import { Query } from "mongoose";
-import { excludeFields } from "../constants/constants";
+import { Query } from 'mongoose';
+import { excludeFields } from '../constants/constants';
 
 export class QueryBuilder<T> {
   public modelQuery: Query<T[], T>;
@@ -19,21 +19,23 @@ export class QueryBuilder<T> {
     return this;
   }
   search(searchableFields: string[]): this {
-    const searchTerm = this.query.searchTerm || "";
+    const searchTerm = this.query.searchTerm || '';
     const searchQuery = {
-      $or: searchableFields.map((field: string) => ({ [field]: { $regex: searchTerm, $options: "i" } })),
+      $or: searchableFields.map((field: string) => ({
+        [field]: { $regex: searchTerm, $options: 'i' },
+      })),
     };
     this.modelQuery = this.modelQuery.find(searchQuery);
     return this;
   }
   sort(): this {
-    const sort = this.query?.sort || "-createdAt";
+    const sort = this.query?.sort || '-createdAt';
     this.modelQuery = this.modelQuery.sort(sort);
     return this;
   }
 
   fields(): this {
-    const fields = this.query.fields?.split(",").join(" ") || "";
+    const fields = this.query.fields?.split(',').join(' ') || '';
     this.modelQuery = this.modelQuery.select(fields);
     return this;
   }

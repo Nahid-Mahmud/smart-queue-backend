@@ -1,26 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import { ZodError } from "zod";
-import envVariables from "../config/env";
-import AppError from "../errorHelpers/AppError";
-import { TErrorSources } from "../interfaces/error.types";
-import { handleDuplicateKeyError } from "../errorHelpers/handleDuplicateKeyError";
-import { handleCastError } from "../errorHelpers/handleCastError";
-import { handleValidationError } from "../errorHelpers/handleValidationError";
-import { handleZodError } from "../errorHelpers/handleZodError";
+import { ZodError } from 'zod';
+import envVariables from '../config/env';
+import AppError from '../errorHelpers/AppError';
+import { TErrorSources } from '../interfaces/error.types';
+import { handleDuplicateKeyError } from '../errorHelpers/handleDuplicateKeyError';
+import { handleCastError } from '../errorHelpers/handleCastError';
+import { handleValidationError } from '../errorHelpers/handleValidationError';
+import { handleZodError } from '../errorHelpers/handleZodError';
 
-
-export const globalErrorHandler = async (err: any, req: Request, res: Response, next: NextFunction) => {
-  if (envVariables.NODE_ENV === "development") {
+export const globalErrorHandler = async (
+  err: any,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (envVariables.NODE_ENV === 'development') {
     // eslint-disable-next-line no-console
-    console.log("Global Error Handler:", err);
+    console.log('Global Error Handler:', err);
   }
 
-
   let statusCode = 500;
-  let message = "Something Went Wrong!!";
+  let message = 'Something Went Wrong!!';
   let errorSources: TErrorSources[] = [];
 
   // MongoDB duplicate key error
@@ -30,14 +33,14 @@ export const globalErrorHandler = async (err: any, req: Request, res: Response, 
     message = simplifiedError.message;
   }
   // MongoDB Cast Error (objectId Error)
-  else if (err.name === "CastError") {
+  else if (err.name === 'CastError') {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
   }
 
   // Mongoose validation error
-  else if (err.name === "ValidationError") {
+  else if (err.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
@@ -67,8 +70,8 @@ export const globalErrorHandler = async (err: any, req: Request, res: Response, 
   res.status(statusCode).json({
     success: false,
     message,
-    error: envVariables.NODE_ENV === "development" ? err : null,
+    error: envVariables.NODE_ENV === 'development' ? err : null,
     errorSources,
-    stack: envVariables.NODE_ENV === "development" ? err.stack : null,
+    stack: envVariables.NODE_ENV === 'development' ? err.stack : null,
   });
 };

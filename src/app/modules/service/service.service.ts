@@ -1,6 +1,5 @@
-
-import { IService } from "./service.interface";
-import Service from "./service.model";
+import { IService } from './service.interface';
+import Service from './service.model';
 
 const createServiceIntoDB = async (payload: IService) => {
   const result = await Service.create(payload);

@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { IActivityLog } from "./activityLog.interface";
+import { model, Schema } from 'mongoose';
+import { IActivityLog } from './activityLog.interface';
 
 const activityLogSchema = new Schema<IActivityLog>(
   {
@@ -10,8 +10,8 @@ const activityLogSchema = new Schema<IActivityLog>(
   {
     timestamps: true,
     versionKey: false,
-  },
+  }
 );
 
-const ActivityLog = model<IActivityLog>("ActivityLog", activityLogSchema);
+const ActivityLog = model<IActivityLog>('ActivityLog', activityLogSchema);
 export default ActivityLog;

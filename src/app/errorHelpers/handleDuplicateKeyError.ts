@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TGenericErrorResponse } from "../interfaces/error.types";
+import { TGenericErrorResponse } from '../interfaces/error.types';
 
 export const handleDuplicateKeyError = (err: any): TGenericErrorResponse => {
   const matchedArray = err.message.match(/"([^"]*)"/);

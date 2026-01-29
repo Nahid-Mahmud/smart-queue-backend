@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { IsActive, IUser, UserRole } from "./user.interface";
+import { model, Schema } from 'mongoose';
+import { IsActive, IUser, UserRole } from './user.interface';
 
 const userSchema = new Schema<IUser>(
   {
@@ -7,8 +7,16 @@ const userSchema = new Schema<IUser>(
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: Object.values(UserRole), default: UserRole.USER },
-    isActive: { type: String, enum: Object.values(IsActive), default: IsActive.ACTIVE },
+    role: {
+      type: String,
+      enum: Object.values(UserRole),
+      default: UserRole.USER,
+    },
+    isActive: {
+      type: String,
+      enum: Object.values(IsActive),
+      default: IsActive.ACTIVE,
+    },
     isDeleted: { type: Boolean, default: false },
     isVerified: { type: Boolean, default: false },
     profilePicture: { type: String },
@@ -19,5 +27,5 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-const User = model<IUser>("User", userSchema);
+const User = model<IUser>('User', userSchema);
 export default User;

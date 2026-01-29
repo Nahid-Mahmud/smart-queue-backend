@@ -5,7 +5,7 @@ import envVariables from "../src/app/config/env";
 import Staff from "../src/app/modules/staff/staff.model";
 import User from "../src/app/modules/user/user.model";
 
-describe("Staff Integration Tests", () => {
+describe('Staff Integration Tests', () => {
   beforeAll(async () => {
     jest.setTimeout(30000);
     await mongoose.connect(envVariables.MONGO_URI);
@@ -26,22 +26,22 @@ describe("Staff Integration Tests", () => {
   });
 
   const userData = {
-    firstName: "Staff",
-    lastName: "Manager",
-    email: "manager@example.com",
-    password: "Password123!",
+    firstName: 'Staff',
+    lastName: 'Manager',
+    email: 'manager@example.com',
+    password: 'Password123!',
   };
 
   const staffData = {
-    name: "Dr. Smith",
-    serviceType: "Doctor",
+    name: 'Dr. Smith',
+    serviceType: 'Doctor',
     dailyCapacity: 5,
-    availabilityStatus: "Available",
+    availabilityStatus: 'Available',
   };
 
   const createUserAndLogin = async () => {
-    await request(app).post("/api/v1/user/create").send(userData);
-    const loginResponse = await request(app).post("/api/v1/auth/login").send({
+    await request(app).post('/api/v1/user/create').send(userData);
+    const loginResponse = await request(app).post('/api/v1/auth/login').send({
       email: userData.email,
       password: userData.password,
     });
@@ -50,13 +50,13 @@ describe("Staff Integration Tests", () => {
     };
   };
 
-  describe("POST /api/v1/staff/create-staff", () => {
-    it("should successfully create a new staff member", async () => {
+  describe('POST /api/v1/staff/create-staff', () => {
+    it('should successfully create a new staff member', async () => {
       const { token } = await createUserAndLogin();
 
       const response = await request(app)
-        .post("/api/v1/staff/create-staff")
-        .set("Authorization", `${token}`)
+        .post('/api/v1/staff/create-staff')
+        .set('Authorization', `${token}`)
         .send(staffData);
 
       expect(response.status).toBe(201);
@@ -67,28 +67,30 @@ describe("Staff Integration Tests", () => {
       expect(savedStaff).toBeTruthy();
     });
 
-    it("should fail without proper payload", async () => {
+    it('should fail without proper payload', async () => {
       const { token } = await createUserAndLogin();
       // Validation schema requires certain fields
-      const invalidData = { ...staffData, name: "" };
+      const invalidData = { ...staffData, name: '' };
 
       const response = await request(app)
-        .post("/api/v1/staff/create-staff")
-        .set("Authorization", `${token}`)
+        .post('/api/v1/staff/create-staff')
+        .set('Authorization', `${token}`)
         .send(invalidData);
 
       expect(response.status).toBe(400);
     });
   });
 
-  describe("GET /api/v1/staff", () => {
-    it("should return all staff members", async () => {
+  describe('GET /api/v1/staff', () => {
+    it('should return all staff members', async () => {
       const { token } = await createUserAndLogin();
       // Need to simulate staff creation with addedBy
       const user = await User.findOne({ email: userData.email });
       await Staff.create({ ...staffData, addedBy: user?._id });
 
-      const response = await request(app).get("/api/v1/staff").set("Authorization", `${token}`);
+      const response = await request(app)
+        .get('/api/v1/staff')
+        .set('Authorization', `${token}`);
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
@@ -96,32 +98,40 @@ describe("Staff Integration Tests", () => {
     });
   });
 
-  describe("PATCH /api/v1/staff/:id", () => {
-    it("should update staff details", async () => {
+  describe('PATCH /api/v1/staff/:id', () => {
+    it('should update staff details', async () => {
       const { token } = await createUserAndLogin();
       const user = await User.findOne({ email: userData.email });
-      const staff = await Staff.create({ ...staffData, addedBy: user?._id });
+      const staff = await Staff.create({
+        ...staffData,
+        addedBy: user?._id,
+      });
 
-      const updateData = { availabilityStatus: "On Leave" };
+      const updateData = { availabilityStatus: 'On Leave' };
 
       const response = await request(app)
         .patch(`/api/v1/staff/${staff._id}`)
-        .set("Authorization", `${token}`)
+        .set('Authorization', `${token}`)
         .send(updateData);
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
-      expect(response.body.data.availabilityStatus).toBe("On Leave");
+      expect(response.body.data.availabilityStatus).toBe('On Leave');
     });
   });
 
-  describe("DELETE /api/v1/staff/:id", () => {
-    it("should soft delete staff", async () => {
+  describe('DELETE /api/v1/staff/:id', () => {
+    it('should soft delete staff', async () => {
       const { token } = await createUserAndLogin();
       const user = await User.findOne({ email: userData.email });
-      const staff = await Staff.create({ ...staffData, addedBy: user?._id });
+      const staff = await Staff.create({
+        ...staffData,
+        addedBy: user?._id,
+      });
 
-      const response = await request(app).delete(`/api/v1/staff/${staff._id}`).set("Authorization", `${token}`);
+      const response = await request(app)
+        .delete(`/api/v1/staff/${staff._id}`)
+        .set('Authorization', `${token}`);
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);

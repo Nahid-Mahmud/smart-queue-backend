@@ -1,7 +1,9 @@
-import ActivityLog from "./activityLog.model";
+import ActivityLog from './activityLog.model';
 
 const getAllLogsFromDB = async () => {
-  const result = await ActivityLog.find({ isDeleted: false }).sort("-createdAt").limit(10);
+  const result = await ActivityLog.find({ isDeleted: false })
+    .sort('-createdAt')
+    .limit(10);
   return result;
 };
 

@@ -1,6 +1,5 @@
-
-import { model, Schema } from "mongoose";
-import { IService } from "./service.interface";
+import { model, Schema } from 'mongoose';
+import { IService } from './service.interface';
 
 const serviceSchema = new Schema<IService>(
   {
@@ -15,5 +14,5 @@ const serviceSchema = new Schema<IService>(
   }
 );
 
-const Service = model<IService>("Service", serviceSchema);
+const Service = model<IService>('Service', serviceSchema);
 export default Service;

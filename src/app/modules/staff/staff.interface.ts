@@ -1,6 +1,6 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
-export type TAvailabilityStatus = "Available" | "On Leave";
+export type TAvailabilityStatus = 'Available' | 'On Leave';
 
 export interface IStaff {
   name: string;

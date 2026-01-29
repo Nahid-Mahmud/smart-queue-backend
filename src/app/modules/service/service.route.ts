@@ -1,22 +1,26 @@
-import express from "express";
-import { validateRequest } from "../../middlewares/validateRequest";
-import { ServiceValidation } from "./service.validation";
-import { ServiceController } from "./service.controller";
+import express from 'express';
+import { validateRequest } from '../../middlewares/validateRequest';
+import { ServiceValidation } from './service.validation';
+import { ServiceController } from './service.controller';
 
 const router = express.Router();
 
 router.post(
-  "/create-service",
+  '/create-service',
   validateRequest(ServiceValidation.createServiceZodSchema),
-  ServiceController.createService,
+  ServiceController.createService
 );
 
-router.get("/", ServiceController.getAllServices);
+router.get('/', ServiceController.getAllServices);
 
-router.get("/:id", ServiceController.getSingleService);
+router.get('/:id', ServiceController.getSingleService);
 
-router.patch("/:id", validateRequest(ServiceValidation.updateServiceZodSchema), ServiceController.updateService);
+router.patch(
+  '/:id',
+  validateRequest(ServiceValidation.updateServiceZodSchema),
+  ServiceController.updateService
+);
 
-router.delete("/:id", ServiceController.deleteService);
+router.delete('/:id', ServiceController.deleteService);
 
 export const ServiceRoutes = router;

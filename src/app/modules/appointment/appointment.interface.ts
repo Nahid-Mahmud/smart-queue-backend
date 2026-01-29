@@ -1,6 +1,10 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
-export type TAppointmentStatus = "Scheduled" | "Completed" | "Cancelled" | "No-Show";
+export type TAppointmentStatus =
+  | 'Scheduled'
+  | 'Completed'
+  | 'Cancelled'
+  | 'No-Show';
 
 export interface IAppointment {
   customerName: string;
